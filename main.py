@@ -7,42 +7,50 @@ import sys
 import time
 import urllib.request
 import urllib.parse
+import vdf
 
 #check if there are command line arguments
 
 if len(sys.argv) > 1:
     print("args ok")
-    #first arg is game_folder
-    game_folder = sys.argv[1]
-    #second arg is api_key
-    api_key = sys.argv[2]
-    #third arg is steam_folder
-    steam_folder = sys.argv[3]
+    #first arg is api_key
+    api_key = sys.argv[1]
+    #second arg is userid
+    if sys.argv[2]:
+        steam_folder = "/home/"+sys.argv[2]+"/.steam/steam/userdata"
+    else:
+        steam_folder = "/home/deck/steam/.steam/steam/userdata"
 else:
     print("args not ok")
     #end program if no command line arguments
     sys.exit()
 
-games = []
-#loop through the game folders and get the folder names
-for folder in os.listdir(game_folder):
-    games.append(folder)
-
-#replace spaces with underscores in games
-for i, game in enumerate(games):
-    games[i] = game.replace(' ', '_')
-
-#find steam folder userdata
-
 #prompt user to select steam account
 print('Select Steam Account:')
 for i, folder in enumerate(os.listdir(steam_folder)):
-    print(i, folder)
+    print("[" + str(i) + "]:" + folder)
 account = int(input('Account: '))
-steam_folder = steam_folder + '/' + os.listdir(steam_folder)[account]
+steam_folder = steam_folder + '/' + os.listdir(steam_folder)[account] + '/config'
+
+#create blank vdf.txt file in temp
+with open('temp/vdf.txt', 'w') as vdf_file:
+    vdf_file.write('')
+#copy shortcut.vdf to temp/vdf.txt
+shutil.copyfile(steam_folder + '/shortcuts.vdf', 'temp/vdf.txt')
+#open open vdf.txt and add the games to the vdf file
+
+print('Adding game to vdf file...')
+with open('temp/vdf.txt', 'r') as vdf_file:
+    vdf_data = vdf_file.read()
+with open('temp/vdf.txt', 'w') as vdf_file:
+    vdf_data = vdf.loads(vdf_data)
+    vdf_data['shortcuts'][len(vdf_data['shortcuts'])] = {'AppName': game_name, 'exe': 'steam://rungameid/' + str(game_id), 'LaunchOptions': '', 'IsHidden': '0', 'AllowDesktopConfig': '1', 'AllowOverlay': '1', 'openvr': '0', 'Devkit': '0', 'DevkitGameID': '', 'LastPlayTime': '0'}
+    vdf_data = vdf.dumps(vdf_data)
+    vdf_file.write(vdf_data)
+
 
 #enter config grid folder
-grid_folder = steam_folder + '/config/grid'
+grid_folder = steam_folder + '/grid'
 
 #check if grid folder exists
 if not os.path.exists(grid_folder):
