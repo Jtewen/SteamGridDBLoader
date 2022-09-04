@@ -32,14 +32,14 @@ if(api_key is not None and game_folder is not None):
     with open('arguments.txt', 'w') as f:
         f.write(api_key + '\n')
         f.write(game_folder + '\n')
-    print('Arguments saved, next time you can just run the script without arguments')
+    print('Arguments saved to config.txt, next time you can just run the script without arguments')
 
 #if there are no arguments then load them from the file
 if not api_key or not game_folder:
-    with open('arguments.txt', 'r') as f:
+    with open('config.txt', 'r') as f:
         api_key = f.readline().rstrip()
         game_folder = f.readline().rstrip()
-    print('Loaded arguments from file')
+    print('Loaded arguments from config')
 
 #make directory to save the images (in steam folder/custom_art)
 save_dir = "/home/" + user + "/.local/share/Steam/custom_art/"
