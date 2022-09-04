@@ -8,10 +8,9 @@ import time
 import urllib.request
 import urllib.parse
 import vdf
-#import argument parser
 import argparse
 
-#parse arguments, --api is the steamgriddb api key, -g is game folder, -u is linux user
+#parse arguments, --api is the steamgriddb api key, -g is game folder
 parser = argparse.ArgumentParser()
 parser.add_argument('--api', help='Steamgriddb api key')
 parser.add_argument('-g', help='Game folder')
@@ -45,8 +44,8 @@ def download_images(game_name):
     if game_id is None:
         print('Game not found on steam')
         return
-    #use steamgriddb api to get the images from game id then download them
     types = ["grids", "heroes", "logos", "icons"]
+    #use steamgriddb api to get the images from game id then download them
     for type in types:
         url = 'https://www.steamgriddb.com/api/v2/'+type+'/game/' + str(game_id)
         headers = {'Authorization': 'Bearer ' + api_key}
