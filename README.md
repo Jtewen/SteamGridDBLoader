@@ -8,7 +8,7 @@ A simple tool to download and install SteamGridDB images for your games.
 4. Add the custom art to your games in Steam from the custom_art folder in your steam directory. (/.steam/steam/custom_art on linux)
 
 ## Flags
-* `--api` - The SteamGridDB API key. You can get one [here](https://www.steamgriddb.com/profile/settings/api).
+* `--api` - The SteamGridDB API key. You can get one [here](https://www.steamgriddb.com/profile/preferences/api).
 * `-g` - The path to your directory of non-steam games.
 * `-n` - Optional flag to set the number of images to download for each game. Defaults to 1.
 
