@@ -4,7 +4,7 @@ A simple tool to download and install SteamGridDB images for your games.
 ## Usage
 1. Clone the repository or download and extract the zip.
 2. run `pip install -r requirements.txt` to install the required packages.
-3. run `python main.py --api <steamgriddb api key> -g <path to your directory of games>`
+3. run `python3 main.py --api <steamgriddb api key> -g <path to your directory of games>`
 4. Add the custom art to your games in Steam from the custom_art folder in your steam directory. (/.steam/steam/custom_art on linux)
 
 ## Flags
