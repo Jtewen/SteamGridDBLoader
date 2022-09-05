@@ -29,7 +29,7 @@ user = os.getlogin()
 
 #save these arguments to a file so we can use them later
 if(api_key is not None and game_folder is not None):
-    with open('arguments.txt', 'w') as f:
+    with open('config.txt', 'w') as f:
         f.write(api_key + '\n')
         f.write(game_folder + '\n')
     print('Arguments saved to config.txt, next time you can just run the script without arguments')
@@ -58,7 +58,10 @@ def get_gameid(game_name):
     url = 'https://www.steamgriddb.com/api/v2/search/autocomplete/' + game_name
     headers = {'Authorization': 'Bearer ' + api_key}
     response = requests.get(url, headers=headers)
-    print(response)
+    #check if it failed
+    if response.status_code != 200:
+        print('Failed to get game id')
+        return None
     data = json.loads(response.text)
     if data['data']:
         return data['data'][0]['id']
@@ -87,7 +90,8 @@ def download_images(game_name):
             opener = urllib.request.build_opener()
             opener.addheaders = [('User-agent', 'Mozilla/5.0')]
             urllib.request.install_opener(opener)
-            urllib.request.urlretrieve(image['url'], save_dir + game_name + '_' + type + '.jpg')
+            #dl image from url and save it with the extension of the url
+            urllib.request.urlretrieve(image['url'], save_dir + game_name + '_' + type + str(i+1) + '.' + image['url'].split('.')[-1])
 
 #download the images
 for game in games:
